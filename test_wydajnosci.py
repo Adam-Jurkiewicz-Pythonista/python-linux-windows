@@ -8,14 +8,28 @@ import sys
 try:
     import matplotlib.pyplot as plt
 except:
+    print(""""
+    Pamiętaj - skrypt najlepiej działa w virtual env, więc:
+    python -m venv venv
+    ...""")
     if sys.platform == "linux":
-        print("dla Linux (Debian/Ubuntu/Mint):")
-        print("sudo apt install python3-pip")
-        print("sudo -H pip3 install matplotlib")
+        print("""
+        Aktywacja venv: 
+        source venv/bin/activate
+        I potem instalacja biblioteki
+        pip install matplotlib
+        """)
+    elif "win" in sys.platform:
+        print("""
+        Aktywacja venv: 
+        source venv/bin/activate
+        I potem instalacja biblioteki
+        pip install matplotlib
+        """)
     else:
-        print("dla windows:")
-        print("pip install matplotlib")
-        print("pip install msvc-runtime")
+        print(f"nie wiem, co zrobić w systemie {sys.platform}")
+        print("jeśli wiesz, możesz wysłać info do mnie")
+        print("Adam")
     sys.exit(2)
 
 # Reszta to standardowe moduły
@@ -41,13 +55,10 @@ def odczyt_danych_testowych(plik="plik_danych.dat"):
     return dane
 
 
-def oblicz(lista, fun):
-    from math import sin, cos
-
+def oblicz(lista, fn_funkcja):
     out = []
-
     for x in lista:
-        wart = eval(fun)
+        wart = eval(fn_funkcja)
         out.append(wart)
     return out
 
@@ -58,7 +69,7 @@ def json_zapis(dane, nazwa_pliku="plik_danych.json"):
 
 
 def zapis_wykresu(
-    dane_x, dane_y, nazwa_pliku="wykres.png", nazwa_wykresu="Standardowy wykres xy"
+    dane_x, dane_y, nazwa_pliku="wykres.png"
 ):
     plt.figure(figsize=(40, 20), dpi=30)
     plt.scatter(dane_x, dane_y)
@@ -91,7 +102,7 @@ wyniki = {
 
 wyniki[
     "sys.version"
-] = f"{sys.version} | hexversion {sys.hexversion} | api {sys.api_version}"
+] = f" {sys.platform} -> {sys.version} | hexversion {sys.hexversion} | api {sys.api_version}"
 wyniki["sys.version_info"] = str(sys.version_info)
 if sys.platform == "linux":
     wyniki["os.uname"] = str(os.uname())
@@ -105,13 +116,14 @@ dane_x = [x for x in range(-100, 100)]
 zapis_danych(dane_x, "dane_wejsciowe.dat")
 
 
-for i in range(1, 10000):
+print(f"Startuję obliczanie danych: {datetime.now()}")
+for i in range(0, 10003):
     # Odczyt danych podstawowych
     dane_x = odczyt_danych_testowych("dane_wejsciowe.dat")
     if i % 1000 == 0:
         time_now = datetime.now() - start_time
         wyniki["Czasy co 1000 enumeracji"][i] = str(time_now)
-        print(f"Obliczam 1000: {i}")
+        print(f"Obliczam 1000: {i//1000} -> {datetime.now()}")
 
     if i % 2 == 0:
         fun = str(f"sin({randint(1,10)}*x*x+{random()*i}*x-{i**randint(1,4)})")
@@ -127,4 +139,5 @@ for i in range(1, 10000):
 stop_time = datetime.now()
 wyniki["Stop"] = str(stop_time)
 wyniki["Delta_time"] = str(stop_time - start_time)
-json_zapis(wyniki) 
+json_zapis(wyniki)
+print(f'Obliczony czas wykonania: {str(stop_time - start_time)}')
