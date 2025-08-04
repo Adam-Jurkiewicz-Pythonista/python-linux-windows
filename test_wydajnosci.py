@@ -10,21 +10,21 @@ try:
 except:
     print(""""
     Pamiętaj - skrypt najlepiej działa w virtual env, więc:
-    python -m venv venv
+    python -m venv venv_dir
     ...""")
     if sys.platform == "linux":
         print("""
         Aktywacja venv: 
-        source venv/bin/activate
+        source venv_dir/bin/activate
         I potem instalacja biblioteki
         pip install matplotlib
         """)
     elif "win" in sys.platform:
         print("""
         Aktywacja venv: 
-        source venv/bin/activate
-        I potem instalacja biblioteki
-        pip install matplotlib
+        venv_dir\Scripts\activate.bat
+        I potem instalacja bibliotek
+        pip install matplotlib msvc-runtime
         """)
     else:
         print(f"nie wiem, co zrobić w systemie {sys.platform}")
