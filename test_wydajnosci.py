@@ -14,14 +14,14 @@ except:
     ...""")
     if sys.platform == "linux":
         print("""
-        Aktywacja venv: 
+        Aktywacja venv:
         source venv_dir/bin/activate
         I potem instalacja biblioteki
         pip install matplotlib
         """)
-    elif "win" in sys.platform:
+    elif sys.platform == "win32":
         print("""
-        Aktywacja venv: 
+        Aktywacja venv:
         venv_dir\Scripts\activate.bat
         I potem instalacja bibliotek
         pip install matplotlib msvc-runtime
